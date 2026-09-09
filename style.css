@@ -12,7 +12,7 @@ body {
 }
 
 a {
-  color: #1d5b8a;
+  color: #1d6a3f;
   text-decoration: none;
 }
 
@@ -24,7 +24,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1d5b8a;
+  background-color: #1d6a3f;
   color: #fff;
   padding: 1rem 2rem;
 }
@@ -62,17 +62,17 @@ main table {
 
 main section h2 {
   margin-bottom: 1rem;
-  color: #1d5b8a;
+  color: #1d6a3f;
 }
 
 main section:nth-of-type(2) {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
 }
 
 main section:nth-of-type(2) article {
-  background-color: #eaf3fb;
+  background-color: #e9f5ee;
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
@@ -88,7 +88,7 @@ main section:nth-of-type(2) article h3 {
 main section:nth-of-type(2) article p {
   font-size: 1.8rem;
   font-weight: bold;
-  color: #1d5b8a;
+  color: #1d6a3f;
 }
 
 table {
@@ -104,7 +104,7 @@ td {
 }
 
 thead {
-  background-color: #1d5b8a;
+  background-color: #1d6a3f;
   color: #fff;
 }
 
@@ -125,15 +125,22 @@ td button {
   font-size: 0.85rem;
 }
 
+
 td button:first-of-type {
-  background-color: #f0ad4e;
+  background-color: #f0ad4e; 
+  color: #fff;
+}
+
+td button:nth-of-type(2) {
+  background-color: #5bc0de; 
   color: #fff;
 }
 
 td button:last-of-type {
-  background-color: #d9534f;
+  background-color: #d9534f; 
   color: #fff;
 }
+
 
 form p {
   margin-bottom: 1rem;
@@ -157,7 +164,7 @@ form textarea {
 }
 
 button[type="submit"] {
-  background-color: #1d5b8a;
+  background-color: #1d6a3f;
   color: #fff;
   border: none;
   padding: 0.6rem 1.2rem;
@@ -167,12 +174,31 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #163f61;
+  background-color: #144a2b;
 }
+
 
 footer {
   text-align: center;
   padding: 1rem;
   font-size: 0.85rem;
   color: #888;
+}
+
+
+@media (max-width: 700px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  header nav ul {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  main section:nth-of-type(2) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
