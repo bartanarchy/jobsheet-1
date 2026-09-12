@@ -44,6 +44,18 @@ header nav a {
   font-weight: 500;
 }
 
+.nav-toggle {
+  display: none;
+}
+
+.nav-toggle-label {
+  display: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  order: 2;
+}
+
 main {
   max-width: 1000px;
   margin: 2rem auto;
@@ -91,6 +103,10 @@ main section:nth-of-type(2) article p {
   color: #1d6a3f;
 }
 
+.table-responsive {
+  overflow-x: auto;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -125,22 +141,20 @@ td button {
   font-size: 0.85rem;
 }
 
-
 td button:first-of-type {
-  background-color: #f0ad4e; 
+  background-color: #f0ad4e;
   color: #fff;
 }
 
 td button:nth-of-type(2) {
-  background-color: #5bc0de; 
+  background-color: #5bc0de;
   color: #fff;
 }
 
 td button:last-of-type {
-  background-color: #d9534f; 
+  background-color: #d9534f;
   color: #fff;
 }
-
 
 form p {
   margin-bottom: 1rem;
@@ -177,7 +191,6 @@ button[type="submit"]:hover {
   background-color: #144a2b;
 }
 
-
 footer {
   text-align: center;
   padding: 1rem;
@@ -185,20 +198,43 @@ footer {
   color: #888;
 }
 
+@media (max-width: 768px) {
+  main section:nth-of-type(2) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
-@media (max-width: 700px) {
+@media (max-width: 480px) {
   header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
+    position: relative;
+  }
+
+  .nav-toggle-label {
+    display: block;
+  }
+
+  header nav {
+    display: none;
+    width: 100%;
+    order: 3;
+    margin-top: 1rem;
+  }
+
+  .nav-toggle:checked ~ nav {
+    display: block;
   }
 
   header nav ul {
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 0.75rem;
   }
 
   main section:nth-of-type(2) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+  }
+
+  form input,
+  form select {
+    max-width: 100%;
   }
 }
