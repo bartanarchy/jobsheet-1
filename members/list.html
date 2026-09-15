@@ -3,19 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
     <title>SIMPUS-Mini | Daftar Anggota</title>
   </head>
   <body>
     <header>
       <h1>SIMPUS-Mini</h1>
-      <input type="checkbox" id="nav-toggle" class="nav-toggle" />
-      <label for="nav-toggle" class="nav-toggle-label">&#9776;</label>
+      <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu">&#9776;</button>
       <nav>
         <ul>
           <li><a href="../index.html">Beranda</a></li>
-          <li><a href="../buku/list.html">Daftar Buku</a></li>
-          <li><a href="../buku/tambah.html">Tambah Buku</a></li>
+          <li><a href="../books/list.html">Daftar Buku</a></li>
+          <li><a href="../books/tambah.html">Tambah Buku</a></li>
           <li><a href="list.html">Daftar Anggota</a></li>
           <li><a href="tambah.html">Tambah Anggota</a></li>
         </ul>
@@ -23,6 +22,11 @@
     </header>
 
     <main>
+      <div class="search-box">
+        <label for="search-input">Cari Nama Anggota</label>
+        <input type="text" id="search-input" placeholder="Ketik nama anggota..." />
+      </div>
+
       <div class="table-responsive">
         <table>
           <thead>
@@ -44,7 +48,7 @@
               <td>2024-02-10</td>
               <td>
                 <button type="button">Edit</button>
-                <button type="button">Hapus</button>
+                <button type="button" class="btn-hapus">Hapus</button>
               </td>
             </tr>
             <tr>
@@ -55,7 +59,7 @@
               <td>2024-05-21</td>
               <td>
                 <button type="button">Edit</button>
-                <button type="button">Hapus</button>
+                <button type="button" class="btn-hapus">Hapus</button>
               </td>
             </tr>
           </tbody>
@@ -66,5 +70,7 @@
     <footer>
       <p>© 2026 SIMPUS-Mini - Jobsheet 1</p>
     </footer>
+
+    <script src="../assets/js/app.js"></script>
   </body>
 </html>
