@@ -1,4 +1,4 @@
-// ===== Menu hamburger (digerakkan JS, menggantikan checkbox hack) =====
+// ===== Hamburger menu (JS-driven) =====
 function initNavToggle() {
   const toggleBtn = document.getElementById("nav-toggle-btn");
   const nav = document.querySelector("header nav");
@@ -9,21 +9,25 @@ function initNavToggle() {
   });
 }
 
-// ===== Konfirmasi hapus (baru di tampilan, belum ke server) =====
-function initHapusConfirm() {
-  document.querySelectorAll(".btn-hapus").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      const row = btn.closest("tr");
-      const nama = row ? row.querySelector("td")?.textContent : "data ini";
-      const yakin = confirm('Yakin ingin menghapus "' + nama + '"?');
-      if (yakin && row) {
-        row.remove();
-      }
-    });
+// ===== Delete confirmation — using Event Delegation =====
+// Listener is attached to document because table rows are now created
+// later by books.js/members.js via fetch, so .btn-delete buttons may
+// not exist yet at DOMContentLoaded.
+function initDeleteConfirm() {
+  document.addEventListener("click", function (e) {
+    const btn = e.target.closest(".btn-delete");
+    if (!btn) return;
+
+    const row = btn.closest("tr");
+    const name = row ? row.querySelector("td")?.textContent : "this item";
+    const sure = confirm('Are you sure you want to delete "' + name + '"?');
+    if (sure && row) {
+      row.remove();
+    }
   });
 }
 
-// ===== Filter/pencarian tabel secara real-time =====
+// ===== Real-time table search/filter =====
 function initTableFilter() {
   const input = document.getElementById("search-input");
   const table = document.querySelector(".table-responsive table");
@@ -33,83 +37,78 @@ function initTableFilter() {
     const keyword = input.value.toLowerCase();
     const rows = table.querySelectorAll("tbody tr");
     rows.forEach(function (row) {
-      const teks = row.textContent.toLowerCase();
-      row.style.display = teks.includes(keyword) ? "" : "none";
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(keyword) ? "" : "none";
     });
   });
 }
 
-// ===== Validasi form (client-side) =====
-function tampilkanError(input, pesan) {
-  hapusError(input);
+// ===== Client-side form validation =====
+function showError(input, message) {
+  clearError(input);
   const span = document.createElement("span");
   span.className = "error";
-  span.textContent = pesan;
+  span.textContent = message;
   input.insertAdjacentElement("afterend", span);
 }
 
-function hapusError(input) {
+function clearError(input) {
   const next = input.nextElementSibling;
   if (next && next.classList.contains("error")) {
     next.remove();
   }
 }
 
-function initValidasiForm() {
-  const form = document.getElementById("form-tambah");
+function initFormValidation() {
+  const form = document.getElementById("form-add");
   if (!form) return;
 
   form.addEventListener("submit", function (e) {
     let valid = true;
 
-    // Judul (buku) atau Nama (anggota)
-    const judul = form.querySelector("[name='judul'], [name='nama']");
-    if (judul && judul.value.trim() === "") {
-      tampilkanError(judul, "Field ini wajib diisi.");
+    const title = form.querySelector("[name='title'], [name='name']");
+    if (title && title.value.trim() === "") {
+      showError(title, "This field is required.");
       valid = false;
-    } else if (judul) {
-      hapusError(judul);
+    } else if (title) {
+      clearError(title);
     }
 
-    // Pengarang (khusus form buku)
-    const pengarang = form.querySelector("[name='pengarang']");
-    if (pengarang && pengarang.value.trim() === "") {
-      tampilkanError(pengarang, "Field ini wajib diisi.");
+    const author = form.querySelector("[name='author']");
+    if (author && author.value.trim() === "") {
+      showError(author, "This field is required.");
       valid = false;
-    } else if (pengarang) {
-      hapusError(pengarang);
+    } else if (author) {
+      clearError(author);
     }
 
-    // No. Anggota (khusus form anggota)
-    const noAnggota = form.querySelector("[name='no_anggota']");
-    if (noAnggota && noAnggota.value.trim() === "") {
-      tampilkanError(noAnggota, "Field ini wajib diisi.");
+    const memberNo = form.querySelector("[name='member_no']");
+    if (memberNo && memberNo.value.trim() === "") {
+      showError(memberNo, "This field is required.");
       valid = false;
-    } else if (noAnggota) {
-      hapusError(noAnggota);
+    } else if (memberNo) {
+      clearError(memberNo);
     }
 
-    // Tahun (khusus form buku)
-    const tahun = form.querySelector("[name='tahun']");
-    if (tahun) {
-      const nilai = parseInt(tahun.value, 10);
-      if (isNaN(nilai) || nilai < 1900 || nilai > 2026) {
-        tampilkanError(tahun, "Tahun harus antara 1900-2026.");
+    const year = form.querySelector("[name='year']");
+    if (year) {
+      const value = parseInt(year.value, 10);
+      if (isNaN(value) || value < 1900 || value > 2026) {
+        showError(year, "Year must be between 1900-2026.");
         valid = false;
       } else {
-        hapusError(tahun);
+        clearError(year);
       }
     }
 
-    // Stok (khusus form buku)
-    const stok = form.querySelector("[name='stok']");
-    if (stok) {
-      const nilai = parseInt(stok.value, 10);
-      if (isNaN(nilai) || nilai < 0) {
-        tampilkanError(stok, "Stok tidak boleh negatif.");
+    const stock = form.querySelector("[name='stock']");
+    if (stock) {
+      const value = parseInt(stock.value, 10);
+      if (isNaN(value) || value < 0) {
+        showError(stock, "Stock cannot be negative.");
         valid = false;
       } else {
-        hapusError(stok);
+        clearError(stock);
       }
     }
 
@@ -119,10 +118,10 @@ function initValidasiForm() {
   });
 }
 
-// ===== Entry point: jalankan semua fitur setelah DOM siap =====
+// ===== Entry point =====
 document.addEventListener("DOMContentLoaded", function () {
   initNavToggle();
-  initHapusConfirm();
+  initDeleteConfirm();
   initTableFilter();
-  initValidasiForm();
+  initFormValidation();
 });

@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../assets/css/style.css" />
-    <title>SIMPUS-Mini | Tambah Buku</title>
+    <title>SIMPUS-Mini | Add Book</title>
   </head>
   <body>
     <header>
@@ -12,11 +12,11 @@
       <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu">&#9776;</button>
       <nav>
         <ul>
-          <li><a href="../index.html">Beranda</a></li>
-          <li><a href="list.html">Daftar Buku</a></li>
-          <li><a href="tambah.html">Tambah Buku</a></li>
-          <li><a href="../members/list.html">Daftar Anggota</a></li>
-          <li><a href="../members/tambah.html">Tambah Anggota</a></li>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="list.html">Book List</a></li>
+          <li><a href="tambah.html">Add Book</a></li>
+          <li><a href="../members/list.html">Member List</a></li>
+          <li><a href="../members/tambah.html">Add Member</a></li>
         </ul>
       </nav>
     </header>
@@ -24,15 +24,15 @@
     <main>
      <form id="form-tambah" novalidate>
         <p>
-          <label for="judul">Judul</label><br />
+          <label for="judul">Title</label><br />
           <input type="text" id="judul" name="judul" required />
         </p>
         <p>
-          <label for="pengarang">Pengarang</label><br />
+          <label for="pengarang">Author</label><br />
           <input type="text" id="pengarang" name="pengarang" required />
         </p>
         <p>
-          <label for="tahun">Tahun Terbit</label><br />
+          <label for="tahun">Publication Year</label><br />
           <input
             type="number"
             id="tahun"
@@ -47,19 +47,19 @@
           <input type="text" id="isbn" name="isbn" />
         </p>
         <p>
-          <label for="stok">Stok</label><br />
+          <label for="stok">Stock</label><br />
           <input type="number" id="stok" name="stok" min="0" required />
         </p>
         <p>
-          <label for="kategori">Kategori</label><br />
+          <label for="kategori">Category</label><br />
           <select id="kategori" name="kategori">
-            <option value="fiksi">Fiksi</option>
-            <option value="non-fiksi">Non-Fiksi</option>
-            <option value="referensi">Referensi</option>
+            <option value="fiksi">Fiction</option>
+            <option value="non-fiksi">Non-Fiction</option>
+            <option value="referensi">Reference</option>
           </select>
         </p>
         <p>
-          <button type="submit">Simpan</button>
+          <button type="submit">Save</button>
         </p>
       </form>
     </main>
