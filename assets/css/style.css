@@ -75,9 +75,13 @@ main section h2 {
 }
 
 main section:nth-of-type(2) {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
+}
+
+main section:nth-of-type(2) h2 {
+  flex-basis: 100%;
 }
 
 main section:nth-of-type(2) article {
@@ -85,6 +89,7 @@ main section:nth-of-type(2) article {
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
+  flex: 1 1 200px;
 }
 
 main section:nth-of-type(2) article h3 {
@@ -214,6 +219,25 @@ footer {
   border-radius: 4px;
 }
 
+/* ===== Jobsheet 7: Flash Message ===== */
+.flash {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.flash-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.flash-error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* ===== Responsive Breakpoints ===== */
 @media (max-width: 768px) {
   main section:nth-of-type(2) {
     grid-template-columns: repeat(2, 1fr);
