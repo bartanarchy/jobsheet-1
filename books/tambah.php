@@ -9,27 +9,27 @@ unset($_SESSION['flash']);
     <?php if ($flash): ?>
         <p class="flash <?php echo $flash['type']; ?>"><?php echo $flash['message']; ?></p>
     <?php endif; ?>
-    
+
     <form id="form-tambah" method="post" action="proses_tambah.php" novalidate>
         <p>
-            <label for="judul">Title</label><br />
-            <input type="text" id="judul" name="judul" required />
+            <label for="title">Title</label><br />
+            <input type="text" id="title" name="title" required />
         </p>
         <p>
-                <label for="pengarang">Author</label><br />
-                <input type="text" id="pengarang" name="pengarang" required />
+                <label for="author">Author</label><br />
+                <input type="text" id="author" name="author" required />
             </p>
             <p>
-                <label for="tahun">Publication Year</label><br />
-                <input type="number" id="tahun" name="tahun" min="1900" max="2026" required />
+                <label for="year">Publication Year</label><br />
+                <input type="number" id="year" name="year" min="1900" max="2026" required />
             </p>
             <p>
                 <label for="isbn">ISBN</label><br />
                 <input type="text" id="isbn" name="isbn" />
             </p>
             <p>
-                <label for="stok">Stock</label><br />
-                <input type="number" id="stok" name="stok" min="0" required />
+                <label for="stock">Stock</label><br />
+                <input type="number" id="stock" name="stock" min="0" required />
             </p>
             <p>
                 <label for="kategori">Category</label><br />

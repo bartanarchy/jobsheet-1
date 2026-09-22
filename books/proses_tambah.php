@@ -1,25 +1,27 @@
 <?php
+require __DIR__ . '/../includes/koneksi.php';
 session_start();
 
-$judul = trim($_POST['judul'] ?? '');
-$pengarang = trim($_POST['pengarang'] ?? '');
-$tahun = $_POST['tahun'] ?? '';
+$judul = trim($_POST['title'] ?? '');
+$pengarang = trim($_POST['author'] ?? '');
+$tahun = $_POST['year'] ?? '';
 $isbn = trim($_POST['isbn'] ?? '');
-$stok = $_POST['stok'] ?? '';
-$kategori = trim($_POST['kategori'] ?? '');
+$stok = $_POST['stock'] ?? '';
+$kategori = trim($_POST['category'] ?? '');
 
 $errors = [];
+
 if ($judul === '') {
-    $errors[] = "Title is required.";
+    $errors[] = "Judul wajib diisi.";
 }
 if ($pengarang === '') {
-    $errors[] = "Author is required.";
+    $errors[] = "Pengarang wajib diisi.";
 }
 if (!is_numeric($tahun) || $tahun < 1900 || $tahun > 2026) {
-    $errors[] = "Year must be between 1900-2026.";
+    $errors[] = "Tahun harus di antara 1900-2026.";
 }
 if (!is_numeric($stok) || $stok < 0) {
-    $errors[] = "Stock must not be negative.";
+    $errors[] = "Stok tidak boleh negatif.";
 }
 
 if (!empty($errors)) {
@@ -28,19 +30,20 @@ if (!empty($errors)) {
     exit;
 }
 
-if (!isset($_SESSION['books'])) {
-    $_SESSION['books'] = [];
-}
-
-$_SESSION['books'][] = [
-    'judul' => $judul,
-    'pengarang' => $pengarang,
-    'tahun' => (int) $tahun,
+$stmt = $pdo->prepare(
+    "INSERT INTO books (title, author, year, isbn, stock, category)
+     VALUES (:title, :author, :year, :isbn, :stock, :category)
+     RETURNING id"
+);
+$stmt->execute([
+    'title' => $judul,
+    'author' => $pengarang,
+    'year' => (int) $tahun,
     'isbn' => $isbn,
-    'stok' => (int) $stok,
-    'kategori' => $kategori,
-];
+    'stock' => (int) $stok,
+    'category' => $kategori,
+]);
 
-$_SESSION['flash'] = ['type' => 'success', 'message' => 'Book successfully added.'];
+$_SESSION['flash'] = ['type' => 'success', 'message' => 'Buku berhasil ditambahkan.'];
 header('Location: list.php');
 exit;

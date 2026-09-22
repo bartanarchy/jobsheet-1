@@ -1,18 +1,18 @@
 <?php
+require __DIR__ . '/../includes/koneksi.php';
 session_start();
 
 $nama = trim($_POST['nama'] ?? '');
 $no_anggota = trim($_POST['no_anggota'] ?? '');
 $alamat = trim($_POST['alamat'] ?? '');
 $no_hp = trim($_POST['no_hp'] ?? '');
-$email = trim($_POST['email'] ?? '');
-
 $errors = [];
+
 if ($nama === '') {
-    $errors[] = "Name is required.";
+    $errors[] = "Nama wajib diisi.";
 }
 if ($no_anggota === '') {
-    $errors[] = "Member No. is required.";
+    $errors[] = "No. Anggota wajib diisi.";
 }
 
 if (!empty($errors)) {
@@ -21,18 +21,18 @@ if (!empty($errors)) {
     exit;
 }
 
-if (!isset($_SESSION['members'])) {
-    $_SESSION['members'] = [];
-}
-
-$_SESSION['members'][] = [
+$stmt = $pdo->prepare(
+    "INSERT INTO members (nama, no_anggota, alamat, no_hp)
+     VALUES (:nama, :no_anggota, :alamat, :no_hp)
+     RETURNING id"
+);
+$stmt->execute([
     'nama' => $nama,
     'no_anggota' => $no_anggota,
     'alamat' => $alamat,
     'no_hp' => $no_hp,
-    'email' => $email,
-];
+]);
 
-$_SESSION['flash'] = ['type' => 'success', 'message' => 'Member successfully added.'];
+$_SESSION['flash'] = ['type' => 'success', 'message' => 'Anggota berhasil ditambahkan.'];
 header('Location: list.php');
 exit;
