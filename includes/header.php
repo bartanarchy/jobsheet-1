@@ -1,10 +1,16 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $__jobsheetRoot = dirname(__DIR__);
 $__scriptDir = dirname($_SERVER['SCRIPT_FILENAME']);
 $__rel = ltrim(str_replace('\\', '/', substr($__scriptDir, strlen($__jobsheetRoot))), '/');
 $base = $__rel === '' ? '' : str_repeat('../', substr_count($__rel, '/') + 1);
+
+// pastikan $base global
+$GLOBALS['base'] = $base;
 ?>
+
 <!doctype html>
 <html lang="en">
 <head>

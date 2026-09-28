@@ -74,14 +74,19 @@ main section h2 {
   color: #1d6a3f;
 }
 
+/* ===== Summary section (2nd section on the Home page) ===== */
 main section:nth-of-type(2) {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
 }
 
-main section:nth-of-type(2) h2 {
-  flex-basis: 100%;
+/* The heading is also a grid item. Make it span the whole first row and
+   center it, so the 4 cards sit together on the row below it. */
+main section:nth-of-type(2) > h2 {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-bottom: 0;
 }
 
 main section:nth-of-type(2) article {
@@ -89,7 +94,6 @@ main section:nth-of-type(2) article {
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
-  flex: 1 1 200px;
 }
 
 main section:nth-of-type(2) article h3 {
@@ -105,6 +109,7 @@ main section:nth-of-type(2) article p {
   color: #1d6a3f;
 }
 
+/* ===== Tables ===== */
 .table-responsive {
   overflow-x: auto;
 }
@@ -134,30 +139,59 @@ tbody tr:hover {
   background-color: #eef4fa;
 }
 
-td button {
+/* ===== Action column (Edit / Detail / Delete) =====
+   Row-level forms (Delete) must NOT inherit the white "card" look
+   that "main form" gives to page-level forms. */
+main td form {
+  display: inline;
+  background: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* Edit and Detail are links (<a>), Delete is a button inside a form.
+   Style them all to look identical in shape. */
+main td a,
+main td button[type="submit"],
+main td button {
+  display: inline-block;
   padding: 0.35rem 0.7rem;
   margin-right: 0.35rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-family: inherit;
   font-size: 0.85rem;
-}
-
-td button:first-of-type {
-  background-color: #f0ad4e;
+  line-height: 1.4;
   color: #fff;
+  text-decoration: none;
 }
 
-td button:nth-of-type(2) {
-  background-color: #5bc0de;
-  color: #fff;
+main td a:hover {
+  text-decoration: none;
+  opacity: 0.9;
 }
 
-td button:last-of-type {
-  background-color: #d9534f;
-  color: #fff;
+main td a:nth-of-type(1) {
+  background-color: #f0ad4e; /* Edit */
 }
 
+main td a:nth-of-type(2) {
+  background-color: #5bc0de; /* Detail */
+}
+
+main td button,
+main td button[type="submit"] {
+  background-color: #d9534f; /* Delete */
+}
+
+main td button[type="submit"]:hover {
+  background-color: #c9302c;
+}
+
+/* ===== Forms ===== */
 form p {
   margin-bottom: 1rem;
 }
@@ -207,6 +241,7 @@ footer {
   margin-top: 0.25rem;
 }
 
+/* ===== Search box ===== */
 .search-box {
   margin-bottom: 1rem;
 }
@@ -219,7 +254,28 @@ footer {
   border-radius: 4px;
 }
 
-/* ===== Jobsheet 7: Flash Message ===== */
+/* Search form sits inside the page card, so it must not become a nested card */
+main .search-box form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  background: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.search-box button {
+  padding: 0.55rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #1d6a3f;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* ===== Flash message ===== */
 .flash {
   padding: 0.75rem 1rem;
   border-radius: 6px;
@@ -237,7 +293,27 @@ footer {
   color: #721c24;
 }
 
-/* ===== Responsive Breakpoints ===== */
+/* ===== Pagination ===== */
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.pagination a {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid #cdd4da;
+  border-radius: 4px;
+  color: #1d6a3f;
+}
+
+.pagination a.active {
+  background-color: #1d6a3f;
+  color: #fff;
+  border-color: #1d6a3f;
+}
+
+/* ===== Responsive breakpoints ===== */
 @media (max-width: 768px) {
   main section:nth-of-type(2) {
     grid-template-columns: repeat(2, 1fr);
@@ -276,5 +352,10 @@ footer {
   form input,
   form select {
     max-width: 100%;
+  }
+
+  main .search-box form {
+    flex-direction: column;
+    align-items: stretch;
   }
 }

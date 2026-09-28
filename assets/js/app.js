@@ -1,4 +1,4 @@
-// ===== Hamburger menu (JS-driven) =====
+// ===== Hamburger menu =====
 function initNavToggle() {
   const toggleBtn = document.getElementById("nav-toggle-btn");
   const nav = document.querySelector("header nav");
@@ -9,25 +9,29 @@ function initNavToggle() {
   });
 }
 
-// ===== Delete confirmation — using Event Delegation =====
-// Listener is attached to document because table rows are now created
-// later by books.js/members.js via fetch, so .btn-delete buttons may
-// not exist yet at DOMContentLoaded.
+// ===== Delete confirmation =====
+// The Delete button lives inside a real <form method="post"> in a table cell.
+// We listen to the form's "submit" event (not the button's "click") so the
+// request can be cancelled with preventDefault() BEFORE it is sent.
+// Any form inside a <td> is treated as a row-level delete form, so this does
+// not depend on a specific class name.
 function initDeleteConfirm() {
-  document.addEventListener("click", function (e) {
-    const btn = e.target.closest(".btn-delete");
-    if (!btn) return;
+  document.addEventListener("submit", function (e) {
+    const form = e.target;
+    if (!form.closest("td")) return;
 
-    const row = btn.closest("tr");
-    const name = row ? row.querySelector("td")?.textContent : "this item";
-    const sure = confirm('Are you sure you want to delete "' + name + '"?');
-    if (sure && row) {
-      row.remove();
+    const row = form.closest("tr");
+    const firstCell = row ? row.querySelector("td") : null;
+    const name = firstCell ? firstCell.textContent.trim() : "this item";
+
+    const confirmed = confirm('Are you sure you want to delete "' + name + '"?');
+    if (!confirmed) {
+      e.preventDefault();
     }
   });
 }
 
-// ===== Real-time table search/filter =====
+// ===== Instant client-side table filter =====
 function initTableFilter() {
   const input = document.getElementById("search-input");
   const table = document.querySelector(".table-responsive table");
@@ -35,15 +39,13 @@ function initTableFilter() {
 
   input.addEventListener("keyup", function () {
     const keyword = input.value.toLowerCase();
-    const rows = table.querySelectorAll("tbody tr");
-    rows.forEach(function (row) {
-      const text = row.textContent.toLowerCase();
-      row.style.display = text.includes(keyword) ? "" : "none";
+    table.querySelectorAll("tbody tr").forEach(function (row) {
+      row.style.display = row.textContent.toLowerCase().includes(keyword) ? "" : "none";
     });
   });
 }
 
-// ===== Client-side form validation =====
+// ===== Client-side form validation (Add / Edit pages) =====
 function showError(input, message) {
   clearError(input);
   const span = document.createElement("span");
@@ -59,36 +61,29 @@ function clearError(input) {
   }
 }
 
+function requireField(form, selector, message) {
+  const input = form.querySelector(selector);
+  if (!input) return true;
+  if (input.value.trim() === "") {
+    showError(input, message);
+    return false;
+  }
+  clearError(input);
+  return true;
+}
+
 function initFormValidation() {
-  const form = document.getElementById("form-add");
+  // Page-level form only: a form that is a direct child of <section> or <main>.
+  // (Search forms and row-level delete forms are nested deeper, so they are skipped.)
+  const form = document.querySelector("main section > form, main > form");
   if (!form) return;
 
   form.addEventListener("submit", function (e) {
     let valid = true;
 
-    const title = form.querySelector("[name='title'], [name='name']");
-    if (title && title.value.trim() === "") {
-      showError(title, "This field is required.");
-      valid = false;
-    } else if (title) {
-      clearError(title);
-    }
-
-    const author = form.querySelector("[name='author']");
-    if (author && author.value.trim() === "") {
-      showError(author, "This field is required.");
-      valid = false;
-    } else if (author) {
-      clearError(author);
-    }
-
-    const memberNo = form.querySelector("[name='member_no']");
-    if (memberNo && memberNo.value.trim() === "") {
-      showError(memberNo, "This field is required.");
-      valid = false;
-    } else if (memberNo) {
-      clearError(memberNo);
-    }
+    valid = requireField(form, "[name='title'], [name='name']", "This field is required.") && valid;
+    valid = requireField(form, "[name='author']", "This field is required.") && valid;
+    valid = requireField(form, "[name='member_no']", "This field is required.") && valid;
 
     const year = form.querySelector("[name='year']");
     if (year) {
