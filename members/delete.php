@@ -16,3 +16,4 @@ if ($id) {
 
 header('Location: list.php');
 exit;
+    

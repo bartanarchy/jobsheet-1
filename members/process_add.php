@@ -1,5 +1,5 @@
 <?php
-session_start();
+require __DIR__ . '/../includes/auth.php';
 require __DIR__ . '/../includes/koneksi.php';
 
 $name          = trim($_POST['name'] ?? '');
@@ -13,7 +13,7 @@ if ($member_number === '') $errors[] = "Member No. is required.";
 
 if (!empty($errors)) {
     $_SESSION['flash'] = ['type' => 'error', 'message' => implode(' ', $errors)];
-    header('Location: tambah.php');
+    header('Location: add.php');
     exit;
 }
 

@@ -1,5 +1,5 @@
 <?php
-session_start();
+require __DIR__ . '/../includes/auth.php';
 $page_title = "Edit Book";
 include __DIR__ . '/../includes/header.php';
 require __DIR__ . '/../includes/koneksi.php';
@@ -27,7 +27,7 @@ if (!$book) {
     <?php if ($flash): ?>
         <p class="flash flash-<?php echo $flash['type']; ?>"><?php echo $flash['message']; ?></p>
     <?php endif; ?>
-    <form id="form-edit" method="post" action="proses_edit.php" novalidate>
+    <form id="form-edit" method="post" action="process_edit.php" novalidate>
         <input type="hidden" name="id" value="<?php echo $book['id']; ?>">
         <p>
             <label for="title">Title</label><br />

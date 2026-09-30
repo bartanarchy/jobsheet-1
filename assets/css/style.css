@@ -27,10 +27,15 @@ header {
   background-color: #1d6a3f;
   color: #fff;
   padding: 1rem 2rem;
+  gap: 1.5rem;
 }
 
 header h1 {
   font-size: 1.4rem;
+}
+
+header nav {
+  flex: 1;
 }
 
 header nav ul {
@@ -51,6 +56,19 @@ header nav a {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+/* ===== Jobsheet 10: login/logout status ===== */
+.auth-status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #fff;
+}
+
+.auth-status a {
+  color: #fff;
+  text-decoration: underline;
 }
 
 main {
@@ -81,8 +99,6 @@ main section:nth-of-type(2) {
   gap: 1rem;
 }
 
-/* The heading is also a grid item. Make it span the whole first row and
-   center it, so the 4 cards sit together on the row below it. */
 main section:nth-of-type(2) > h2 {
   grid-column: 1 / -1;
   text-align: center;
@@ -139,9 +155,7 @@ tbody tr:hover {
   background-color: #eef4fa;
 }
 
-/* ===== Action column (Edit / Detail / Delete) =====
-   Row-level forms (Delete) must NOT inherit the white "card" look
-   that "main form" gives to page-level forms. */
+/* ===== Action column (Edit / Detail / Delete) ===== */
 main td form {
   display: inline;
   background: none;
@@ -151,8 +165,6 @@ main td form {
   border-radius: 0;
 }
 
-/* Edit and Detail are links (<a>), Delete is a button inside a form.
-   Style them all to look identical in shape. */
 main td a,
 main td button[type="submit"],
 main td button {
@@ -175,16 +187,16 @@ main td a:hover {
 }
 
 main td a:nth-of-type(1) {
-  background-color: #f0ad4e; /* Edit */
+  background-color: #f0ad4e;
 }
 
 main td a:nth-of-type(2) {
-  background-color: #5bc0de; /* Detail */
+  background-color: #5bc0de;
 }
 
 main td button,
 main td button[type="submit"] {
-  background-color: #d9534f; /* Delete */
+  background-color: #d9534f;
 }
 
 main td button[type="submit"]:hover {
@@ -254,7 +266,6 @@ footer {
   border-radius: 4px;
 }
 
-/* Search form sits inside the page card, so it must not become a nested card */
 main .search-box form {
   display: flex;
   gap: 0.5rem;
@@ -318,11 +329,16 @@ main .search-box form {
   main section:nth-of-type(2) {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  main section:nth-of-type(2) > h2 {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (max-width: 480px) {
   header {
     position: relative;
+    flex-wrap: wrap;
   }
 
   .nav-toggle-label {

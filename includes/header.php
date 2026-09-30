@@ -7,10 +7,8 @@ $__scriptDir = dirname($_SERVER['SCRIPT_FILENAME']);
 $__rel = ltrim(str_replace('\\', '/', substr($__scriptDir, strlen($__jobsheetRoot))), '/');
 $base = $__rel === '' ? '' : str_repeat('../', substr_count($__rel, '/') + 1);
 
-// pastikan $base global
-$GLOBALS['base'] = $base;
+$loggedIn = isset($_SESSION['user_id']);
 ?>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,10 +25,20 @@ $GLOBALS['base'] = $base;
             <ul>
                 <li><a href="<?php echo $base; ?>index.php">Home</a></li>
                 <li><a href="<?php echo $base; ?>books/list.php">Book List</a></li>
-                <li><a href="<?php echo $base; ?>books/tambah.php">Add Book</a></li>
+                <?php if ($loggedIn): ?>
+                <li><a href="<?php echo $base; ?>books/add.php">Add Book</a></li>
                 <li><a href="<?php echo $base; ?>members/list.php">Member List</a></li>
-                <li><a href="<?php echo $base; ?>members/tambah.php">Add Member</a></li>
+                <li><a href="<?php echo $base; ?>members/add.php">Add Member</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
+        <div class="auth-status">
+            <?php if ($loggedIn): ?>
+                <span><?php echo $_SESSION['name']; ?></span>
+                <a href="<?php echo $base; ?>auth/logout.php">Logout</a>
+            <?php else: ?>
+                <a href="<?php echo $base; ?>auth/login.php">Login</a>
+            <?php endif; ?>
+        </div>
     </header>
     <main>

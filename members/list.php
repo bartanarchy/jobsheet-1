@@ -1,5 +1,5 @@
 <?php
-session_start();
+require __DIR__ . '/../includes/auth.php';
 $page_title = "Member List";
 include __DIR__ . '/../includes/header.php';
 require __DIR__ . '/../includes/koneksi.php';
@@ -67,8 +67,7 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
                             <td><?php echo $member['phone_number']; ?></td>
                             <td>
                                 <a href="edit.php?id=<?php echo $member['id']; ?>" class="btn-edit">Edit</a>
-                                <a href="detail.php?id=<?php echo $member['id']; ?>" class="btn-detail">Detail</a>
-                                <form class="form-hapus" method="post" action="hapus.php">
+                                <form class="form-hapus" method="post" action="delete.php">
                                     <input type="hidden" name="id" value="<?php echo $member['id']; ?>">
                                     <button type="submit" class="btn-hapus">Delete</button>
                                 </form>
@@ -89,4 +88,3 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
 </section>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
-<script src="../assets/js/script.js"></script>

@@ -1,10 +1,11 @@
 <?php
+require __DIR__ . '/../includes/auth.php';
 $page_title = "Add Member";
 include __DIR__ . '/../includes/header.php';
 ?>
 <section>
     <h2>Add Member</h2>
-    <form id="form-tambah" method="post" action="proses_tambah.php" novalidate>
+    <form id="form-add" method="post" action="process_add.php" novalidate>
         <p>
             <label for="name">Name</label><br />
             <input type="text" id="name" name="name" required />

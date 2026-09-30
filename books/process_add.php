@@ -1,19 +1,13 @@
 <?php
-session_start();
+require __DIR__ . '/../includes/auth.php';
 require __DIR__ . '/../includes/koneksi.php';
 
-$id       = $_POST['id'] ?? null;
 $title    = trim($_POST['title'] ?? '');
 $author   = trim($_POST['author'] ?? '');
 $year     = $_POST['year'] ?? '';
 $isbn     = trim($_POST['isbn'] ?? '');
 $stock    = $_POST['stock'] ?? '';
 $category = trim($_POST['category'] ?? '');
-
-if (!$id) {
-    header('Location: list.php');
-    exit;
-}
 
 $errors = [];
 if ($title === '') $errors[] = "Title is required.";
@@ -23,13 +17,13 @@ if (!is_numeric($stock) || $stock < 0) $errors[] = "Stock must not be negative."
 
 if (!empty($errors)) {
     $_SESSION['flash'] = ['type' => 'error', 'message' => implode(' ', $errors)];
-    header('Location: edit.php?id=' . urlencode($id));
+    header('Location: add.php');
     exit;
 }
 
 $stmt = $pdo->prepare(
-    "UPDATE books SET title = :title, author = :author, year = :year,
-     isbn = :isbn, stock = :stock, category = :category WHERE id = :id"
+    "INSERT INTO books (title, author, year, isbn, stock, category)
+     VALUES (:title, :author, :year, :isbn, :stock, :category)"
 );
 $stmt->execute([
     'title'    => $title,
@@ -38,9 +32,8 @@ $stmt->execute([
     'isbn'     => $isbn,
     'stock'    => (int) $stock,
     'category' => $category,
-    'id'       => $id,
 ]);
 
-$_SESSION['flash'] = ['type' => 'success', 'message' => 'Book successfully updated.'];
+$_SESSION['flash'] = ['type' => 'success', 'message' => 'Book successfully added.'];
 header('Location: list.php');
 exit;
