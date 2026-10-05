@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../includes/csrf.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -19,6 +20,7 @@ unset($_SESSION['flash']);
                 <p class="flash flash-<?php echo $flash['type']; ?>"><?php echo $flash['message']; ?></p>
             <?php endif; ?>
             <form method="post" action="process_register.php" novalidate>
+                  <?php echo csrf_field(); ?>
                 <p>
                     <label for="name">Name</label><br>
                     <input type="text" id="name" name="name" required>

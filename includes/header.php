@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/csrf.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -34,7 +36,7 @@ $loggedIn = isset($_SESSION['user_id']);
         </nav>
         <div class="auth-status">
             <?php if ($loggedIn): ?>
-                <span><?php echo $_SESSION['name']; ?></span>
+                <span><?php echo e($_SESSION['name']); ?></span>
                 <a href="<?php echo $base; ?>auth/logout.php">Logout</a>
             <?php else: ?>
                 <a href="<?php echo $base; ?>auth/login.php">Login</a>

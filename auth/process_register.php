@@ -1,6 +1,10 @@
 <?php
 session_start();
 require __DIR__ . '/../includes/koneksi.php';
+require __DIR__ . '/../includes/csrf.php';
+require __DIR__ . '/../includes/koneksi.php';
+
+csrf_verify();
 
 $name = trim($_POST['name'] ?? '');
 $username = trim($_POST['username'] ?? '');
